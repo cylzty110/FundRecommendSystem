@@ -1,0 +1,3 @@
+virtuelenv 安装虚拟环境
+pip install -r requirements.txt  部署环境
+E:\研究生\项目\华腾项目\virtualenv\Scripts\activate  启动虚拟环境
