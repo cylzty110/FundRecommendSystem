@@ -1,6 +1,8 @@
 from recommend import db
+import flask_sqlalchemy
 
 
+#基金交易账户表
 class FundUserRelation(db.Model):
     __tablename__ = "SCR_TNAC"
     ID = db.Column(db.Integer,primary_key=True)
@@ -11,6 +13,8 @@ class FundUserRelation(db.Model):
     UPLOAD_BATCH = db.Column(db.String(255))
 
 
+
+#基金交易流水
 class FundFlow(db.Model):
     __tablename__ = "SCR_TXNDN_INF"
     ID = db.Column(db.Integer,primary_key=True)
@@ -31,6 +35,8 @@ class FundFlow(db.Model):
     UPLOAD_BATCH = db.Column(db.String(255))
 
 
+
+#相似度矩阵
 class Similarity(db.Model):
     __tablename__ = "SIMILARITY"
     ID = db.Column(db.Integer, primary_key=True)
@@ -38,7 +44,20 @@ class Similarity(db.Model):
     FUND_ID_SECOND = db.Column(db.String(255))
     SCORE = db.Column(db.String(255))
 
+    @staticmethod
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
 
+
+    @staticmethod
+    def deleteAll():
+        db.session.execute("truncate table SIMILARITY")
+        db.session.commit()
+
+
+
+#日志
 class TaskLog(db.Model):
     __tablename__ = "TS_TASK_INFO"
     TASK_ID = db.Column(db.Integer, primary_key=True)
@@ -52,7 +71,14 @@ class TaskLog(db.Model):
     CREATE_DATE = db.Column(db.String(255))
     TASK_STATUS = db.Column(db.String(255))
 
+    @staticmethod
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
 
+
+
+#推荐结果
 class RecommendData(db.Model):
     __tablename__ = "TT_FUND_DATA"
     ID = db.Column(db.Integer, primary_key=True)
@@ -60,4 +86,22 @@ class RecommendData(db.Model):
     PROBILITY = db.Column(db.String(255))
     TASK_BATCH = db.Column(db.String(255))
     CREATE_DATE = db.Column(db.String(255))
+
+    @staticmethod
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @staticmethod
+    def deleteAll():
+        db.session.execute("truncate table TT_FUND_DATA")
+        db.session.commit()
+
+
+
+
+
+
+
+
 
