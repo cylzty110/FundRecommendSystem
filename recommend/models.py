@@ -1,4 +1,4 @@
-from recommend import db
+from recommend import db, tools
 import flask_sqlalchemy
 
 
@@ -56,6 +56,10 @@ class Similarity(db.Model):
         db.session.commit()
 
 
+    def batchInsert(data):
+        list =  tools.classToDict(data)
+        db.session.execute(RecommendData.__table__.insert(),list)
+
 
 #日志
 class TaskLog(db.Model):
@@ -71,6 +75,7 @@ class TaskLog(db.Model):
     CREATE_DATE = db.Column(db.String(255))
     TASK_STATUS = db.Column(db.String(255))
 
+    #批量插入
     @staticmethod
     def insert(self):
         db.session.add(self)
@@ -97,8 +102,11 @@ class RecommendData(db.Model):
         db.session.execute("truncate table TT_FUND_DATA")
         db.session.commit()
 
-
-
+    #批量插入
+    @staticmethod
+    def batchInsert(data):
+        list =  tools.classToDict(data)
+        db.session.execute(RecommendData.__table__.insert(),list)
 
 
 
