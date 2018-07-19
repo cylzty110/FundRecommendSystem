@@ -6,9 +6,6 @@ from flask import request
 def predictByNum():
     data = request.get_data()
     print(data)
-    newobj = models.FundUserRelation(SCR_TXN_ACCNO="1")
-    db.session.add(newobj)
-    db.session.commit()
     return 'N'
 
 
