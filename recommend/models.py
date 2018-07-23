@@ -35,6 +35,12 @@ class FundFlow(db.Model):
     UPLOAD_BATCH = db.Column(db.String(255))
 
 
+    @staticmethod
+    def selectAll():
+        result = db.session.query(FundUserRelation.CST_ID,FundFlow.SCR_PD_ECD).\
+            filter(FundUserRelation.SCR_TXN_ACCNO == FundFlow.SCR_TXN_ACCNO).all()
+        return result
+
 
 #相似度矩阵
 class Similarity(db.Model):
