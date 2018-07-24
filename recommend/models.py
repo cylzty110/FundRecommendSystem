@@ -148,6 +148,7 @@ class ADS_CUST_HOLD_DEPOSIT(db.Model):
     CNVRCNYACCDEPMO_DABAL = db.Column(db.String(255))
 
 
+
 #客户理财产品持有信息
 class ADS_CUST_HOLD_INVEST(db.Model):
     __tablename__ = "ADS_CUST_HOLD_INVEST"
