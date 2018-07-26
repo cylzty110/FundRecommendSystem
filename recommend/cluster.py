@@ -12,7 +12,7 @@ from sklearn.cluster import AgglomerativeClustering
 # print(enc.transform([[0, 1, 1]]).toarray())
 
 
-#层次聚类
+# 层次聚类
 def hierarchicalClustering():
     userList = models.FundUserRelation.selectAll()
     dataArry = []
@@ -31,16 +31,23 @@ def hierarchicalClustering():
     # label_encode = preprocessing.LabelEncoder()
     # label_encode.fit(oneHotArry)
 
-    cluster = AgglomerativeClustering(n_clusters=2, linkage='average').fit(data)
+    cluster = AgglomerativeClustering(n_clusters=2, linkage='average').fit(dataArry)
     label = cluster.labels_
     return label
+
 
 def oneHotEncode(oneHotArray):
     result = []
     for i in range(len(oneHotArray[0])):
         colum = oneHotArray[:, i]  # 取第i列数据
+
+        for i in range(len(colum)):
+            if colum[i] is None:
+                colum[i] = 'empty'
+
         label_encode = preprocessing.LabelEncoder()
-        label_encode.fit()
+        label_encode.fit(colum)
+        print(label_encode.transform(colum))
 
 
 
