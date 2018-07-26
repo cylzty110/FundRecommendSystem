@@ -1,9 +1,10 @@
 import numpy as np
-import pandas as pd
 from sklearn import preprocessing
-from recommend import models, custom
-from recommend.custom import CustomMessage
 from sklearn.cluster import AgglomerativeClustering
+
+from recommend import models
+from recommend.custom import CustomMessage
+
 
 # enc = preprocessing.OneHotEncoder()
 # enc.fit([[0, 0, 3], [1, 1, 0], [0, 2, 1], [1, 0, 2]])
@@ -14,26 +15,27 @@ from sklearn.cluster import AgglomerativeClustering
 
 # 层次聚类
 def hierarchicalClustering():
-    userList = models.FundUserRelation.selectAll()
+    userList = models.TBL_CUST_ID_CONV.selectAll()
     dataArry = []
     oneHotArry = []
     for userId in userList:
-        customMessage = CustomMessage.selectByEcifId(userId.CST_ID)
+        customMessage = CustomMessage.selectByEcifId(userId.ECIF_CST_ID)
         dataArry.append(getDataArray(customMessage))
         oneHotArry.append(getOneHotArray(customMessage))
 
     dataArry = np.array(dataArry)
     oneHotArry = np.array(oneHotArry)
-    oneHotArry = oneHotEncode(oneHotArry)
-    dataArry = np.column_stack(oneHotArry)
-
     print(dataArry)
+    oneHotArry = oneHotEncode(oneHotArry)
+    # dataArry = np.column_stack(oneHotArry)
+
+    return dataArry
     # label_encode = preprocessing.LabelEncoder()
     # label_encode.fit(oneHotArry)
 
-    cluster = AgglomerativeClustering(n_clusters=2, linkage='average').fit(dataArry)
-    label = cluster.labels_
-    return label
+    # cluster = AgglomerativeClustering(n_clusters=2, linkage='average').fit(dataArry)
+    # label = cluster.labels_
+    # return label
 
 
 def oneHotEncode(oneHotArray):
@@ -45,58 +47,48 @@ def oneHotEncode(oneHotArray):
             if colum[i] is None:
                 colum[i] = 'empty'
 
+
         label_encode = preprocessing.LabelEncoder()
         label_encode.fit(colum)
-        print(label_encode.transform(colum))
-
-
-
+        #print(label_encode.transform(colum))
 
 
 def getDataArray(customMessage):
     result = []
-    for item in customMessage.depositMessage:
-        result.append(item.accountBalance)
-        result.append(item.accountCurrent)
-        result.append(item.accountRegular)
-        result.append(item.accountAverage)
+    result.append(customMessage.depositMessage.accountBalance)
+    result.append(customMessage.depositMessage.accountCurrent)
+    result.append(customMessage.depositMessage.accountRegular)
+    result.append(customMessage.depositMessage.accountAverage)
 
-    for item in customMessage.investMessage:
-        result.append(item.chmtpdMonthAcm)
-        result.append(item.chmtpdSeasonAcm)
-        result.append(item.chmtpdYearAcm)
-        result.append(item.monthAcmHpnLot)
-        result.append(item.monthAcmHpCnt)
-        result.append(item.monthAverageBal)
+    result.append(customMessage.investMessage.chmtpdMonthAcm)
+    result.append(customMessage.investMessage.chmtpdSeasonAcm)
+    result.append(customMessage.investMessage.chmtpdYearAcm)
+    result.append(customMessage.investMessage.monthAcmHpnLot)
+    result.append(customMessage.investMessage.monthAcmHpCnt)
+    result.append(customMessage.investMessage.monthAverageBal)
 
-    for item in customMessage.bankInfo:
-        result.append(item.chmtPdBalance)
-        result.append(item.fundBalance)
-        result.append(item.monthFundNum)
-        result.append(item.timePointAum)
-        result.append(item.monthAverageAum)
-        result.append(item.yearDailyAum)
+    result.append(customMessage.bankInfo.chmtPdBalance)
+    result.append(customMessage.bankInfo.fundBalance)
+    result.append(customMessage.bankInfo.monthFundNum)
+    result.append(customMessage.bankInfo.timePointAum)
+    result.append(customMessage.bankInfo.monthAverageAum)
+    result.append(customMessage.bankInfo.yearDailyAum)
 
-    for item in customMessage.basicMessage:
-        result.append(item.age)
-        result.append(item.income)
+    result.append(customMessage.basicMessage.age)
+    result.append(customMessage.basicMessage.income)
 
     return result
 
 
 def getOneHotArray(customMessage):
     result = []
-    for item in customMessage.investMessage:
-        result.append(item.categoryCode)
-        result.append(item.typeCode)
+    result.append(customMessage.investMessage.categoryCode)
 
-    for item in customMessage.channelInfo:
-        result.append(item.settleFeeType)
+    result.append(customMessage.channelInfo.settleFeeType)
 
-    for item in customMessage.basicMessage:
-        result.append(item.workFlag)
-        result.append(item.education)
-        result.append(item.custStatus)
+    result.append(customMessage.basicMessage.workFlag)
+    result.append(customMessage.basicMessage.education)
+    result.append(customMessage.basicMessage.custStatus)
 
     return result
 

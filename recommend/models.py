@@ -2,7 +2,7 @@ from recommend import db, tools
 import flask_sqlalchemy
 
 
-#基金交易账户表
+# 基金交易账户表
 class FundUserRelation(db.Model):
     __tablename__ = "SCR_TNAC"
     ID = db.Column(db.Integer,primary_key=True)
@@ -12,13 +12,9 @@ class FundUserRelation(db.Model):
     UPLOAD_USER = db.Column(db.String(255))
     UPLOAD_BATCH = db.Column(db.String(255))
 
-    @staticmethod
-    def selectAll():
-        result = db.session.query(FundUserRelation.CST_ID).all()
-        return result
 
 
-#基金交易流水
+# 基金交易流水
 class FundFlow(db.Model):
     __tablename__ = "SCR_TXNDN_INF"
     ID = db.Column(db.Integer, primary_key=True)
@@ -45,7 +41,7 @@ class FundFlow(db.Model):
         return result
 
 
-#相似度矩阵
+# 相似度矩阵
 class Similarity(db.Model):
     __tablename__ = "SIMILARITY"
     ID = db.Column(db.Integer, primary_key=True)
@@ -68,7 +64,7 @@ class Similarity(db.Model):
         db.session.execute(RecommendData.__table__.insert(),list)
 
 
-#日志
+# 日志
 class TaskLog(db.Model):
     __tablename__ = "TS_TASK_INFO"
     TASK_ID = db.Column(db.Integer, primary_key=True)
@@ -89,7 +85,7 @@ class TaskLog(db.Model):
         db.session.commit()
 
 
-#推荐结果
+# 推荐结果
 class RecommendData(db.Model):
     __tablename__ = "TT_FUND_DATA"
     ID = db.Column(db.Integer, primary_key=True)
@@ -115,7 +111,7 @@ class RecommendData(db.Model):
         db.session.execute(RecommendData.__table__.insert(),list)
 
 
-#个人客户存款产品持有
+# 个人客户存款产品持有
 class ADS_CUST_HOLD_DEPOSIT(db.Model):
     __tablename__ = "ADS_CUST_HOLD_DEPOSIT"
     ID = db.Column(db.Integer, primary_key=True)
@@ -154,7 +150,7 @@ class ADS_CUST_HOLD_DEPOSIT(db.Model):
 
 
 
-#客户理财产品持有信息
+# 客户理财产品持有信息
 class ADS_CUST_HOLD_INVEST(db.Model):
     __tablename__ = "ADS_CUST_HOLD_INVEST"
     ID = db.Column(db.Integer, primary_key=True)
@@ -186,7 +182,7 @@ class ADS_CUST_HOLD_INVEST(db.Model):
     SIGN_DT = db.Column(db.String(255))
 
 
-#个人客户银行管理信息
+# 个人客户银行管理信息
 class ADS_PERS_CUST_BANK_INFO(db.Model):
     __tablename__ = "ADS_PERS_CUST_BANK_INFO"
     ID = db.Column(db.Integer, primary_key=True)
@@ -266,7 +262,7 @@ class ADS_PERS_CUST_BANK_INFO(db.Model):
     RCTLY_OC_PRCH_PM_TM = db.Column(db.String(255))
 
 
-#个贷产品持有信息
+# 个贷产品持有信息
 class ADS_PERS_LOAN_PROD_HOLD_INFO(db.Model):
     __tablename__ = "ADS_PERS_LOAN_PROD_HOLD_INFO"
     ID = db.Column(db.Integer, primary_key=True)
@@ -293,7 +289,7 @@ class ADS_PERS_LOAN_PROD_HOLD_INFO(db.Model):
     LN_DSTR_AMT = db.Column(db.String(255))
 
 
-#电子渠道个人签约客户渠道信息
+# 电子渠道个人签约客户渠道信息
 class PRIV_CHANL_INFO(db.Model):
     __tablename__ = "PRIV_CHANL_INFO"
     ID = db.Column(db.Integer, primary_key=True)
@@ -313,7 +309,7 @@ class PRIV_CHANL_INFO(db.Model):
     CONTRIBUTION_LEVEL = db.Column(db.String(255))
 
 
-#电子渠道个人签约客户基本信息
+# 电子渠道个人签约客户基本信息
 class PRIV_CUST_INFO(db.Model):
     __tablename__ = "PRIV_CUST_INFO"
     ID = db.Column(db.Integer, primary_key=True)
@@ -348,12 +344,17 @@ class PRIV_CUST_INFO(db.Model):
 
 
 
-#关联关系表
+# 关联关系表
 class TBL_CUST_ID_CONV(db.Model):
     __tablename__ = "TBL_CUST_ID_CONV"
     ID = db.Column(db.Integer, primary_key=True)
     ECIF_CST_ID = db.Column(db.String(255))
     CUST_NO = db.Column(db.String(255))
+
+    @staticmethod
+    def selectAll():
+        result = db.session.query(TBL_CUST_ID_CONV.ECIF_CST_ID).all()
+        return result
 
 
 # 电子渠道交易流水

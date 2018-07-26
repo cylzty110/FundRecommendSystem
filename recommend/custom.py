@@ -9,25 +9,21 @@ class DepositMessage:
     accountRegular = 0.0  # 账户定期存款余额
     accountAverage = 0.0  # 账户存款月日均余额
 
-
     @staticmethod
     def selectByEcifId(id):
-        result = []
+        result = DepositMessage()
         data = models.ADS_CUST_HOLD_DEPOSIT.query.filter_by(ECIF_CST_ID=id).all()
         for item in data:
-            depositMessage = DepositMessage()
-            depositMessage.accountBalance = item.ACBA
-            depositMessage.accountCurrent = item.ACC_DMDDEP_BAL
-            depositMessage.accountRegular = item.ACC_TMDEP_MO_DABAL
-            depositMessage.accountAverage = item.ACC_DEP_MO_DABAL
-            result.append(depositMessage)
+            result.accountBalance = item.ACBA
+            result.accountCurrent = item.ACC_DMDDEP_BAL
+            result.accountRegular = item.ACC_TMDEP_MO_DABAL
+            result.accountAverage = item.ACC_DEP_MO_DABAL
         return result
 
 
 # 理财产品持有信息
 class InvestMessage:
-    categoryCode = 0  # 投资理财产品类别码
-    typeCode = 0  # 投资理财产品类型码
+    categoryCode = []  # 投资理财产品类别码
     chmtpdMonthAcm = 0  # 投资理财产品月积数
     chmtpdSeasonAcm = 0  # 投资理财产品季积数
     chmtpdYearAcm = 0  # 投资理财产品年积数
@@ -35,22 +31,18 @@ class InvestMessage:
     monthAcmHpCnt = 0  # 月累计发生次数
     monthAverageBal = 0  # 月日均余额
 
-
     @staticmethod
     def selectByEcifId(id):
-        result = []
+        result = InvestMessage()
         data = models.ADS_CUST_HOLD_INVEST.query.filter_by(ECIF_CST_ID=id).all()
-        investMessage = InvestMessage()
         for item in data:
-            investMessage.categoryCode = item.IVS_CHMTPD_CGY_CD
-            investMessage.typeCode = item.IVS_CHMTPD_TP_CD
-            investMessage.chmtpdMonthAcm += float(item.IVS_CHMTPD_MO_ACM)
-            investMessage.chmtpdSeasonAcm += float(item.IVS_CHMTPD_SSN_ACM)
-            investMessage.chmtpdYearAcm += float(item.IVS_CHMTPD_YR_ACM)
-            investMessage.monthAcmHpnLot += float(item.MO_ACM_HPN_LOT)
-            investMessage.monthAcmHpCnt += float(item.MO_ACM_HPCNT)
-            investMessage.monthAverageBal += float(item.MO_DABAL)
-        result.append(investMessage)
+            result.categoryCode.append(item.IVS_CHMTPD_CGY_CD)
+            result.chmtpdMonthAcm += float(item.IVS_CHMTPD_MO_ACM)
+            result.chmtpdSeasonAcm += float(item.IVS_CHMTPD_SSN_ACM)
+            result.chmtpdYearAcm += float(item.IVS_CHMTPD_YR_ACM)
+            result.monthAcmHpnLot += float(item.MO_ACM_HPN_LOT)
+            result.monthAcmHpCnt += float(item.MO_ACM_HPCNT)
+            result.monthAverageBal += float(item.MO_DABAL)
         return result
 
 # 银行信息
@@ -66,19 +58,17 @@ class BankInfo:
 
     @staticmethod
     def selectByEcifId(id):
-        result = []
+        result = BankInfo()
         data = models.ADS_PERS_CUST_BANK_INFO.query.filter_by(CST_NO=id).all()
         for item in data:
-            bankInfo = BankInfo()
-            bankInfo.chmtPdBalance = item.CCB_CHMTPD_BAL
-            bankInfo.fundBalance = item.FND_BAL
-            bankInfo.monthFundNum = item.FND_MO_DA_NUM
-            bankInfo.timePointAum = item.CST_TMPNTAUM_VAL
-            bankInfo.monthAverageAum = item.CST_MOAVGAUM_VAL
-            bankInfo.yearDailyAum = item.CST_YR_DAAUM_VAL
-            bankInfo.fundFirstBuy = item.FND_FTM_PRCH_TM
-            bankInfo.fundRecentlyBuy = item.RCTLY_OC_PRCH_FND_TM
-            result.append(bankInfo)
+            result.chmtPdBalance = item.CCB_CHMTPD_BAL
+            result.fundBalance = item.FND_BAL
+            result.monthFundNum = item.FND_MO_DA_NUM
+            result.timePointAum = item.CST_TMPNTAUM_VAL
+            result.monthAverageAum = item.CST_MOAVGAUM_VAL
+            result.yearDailyAum = item.CST_YR_DAAUM_VAL
+            result.fundFirstBuy = item.FND_FTM_PRCH_TM
+            result.fundRecentlyBuy = item.RCTLY_OC_PRCH_FND_TM
         return result
 
 
@@ -92,14 +82,12 @@ class ChannelInfo:
 
     @staticmethod
     def selectByEcifId(id):
-        result = []
+        result = ChannelInfo()
         data = models.PRIV_CHANL_INFO.query.\
-            filter(and_(models.TBL_CUST_ID_CONV.ECIF_CST_ID==id,
-                        models.PRIV_CHANL_INFO.CUST_NO==models.TBL_CUST_ID_CONV.CUST_NO)).all()
+            filter(and_(models.TBL_CUST_ID_CONV.ECIF_CST_ID == id,
+                        models.PRIV_CHANL_INFO.CUST_NO == models.TBL_CUST_ID_CONV.CUST_NO)).all()
         for item in data:
-            channelInfo = ChannelInfo()
-            channelInfo.settleFeeType = item.STL_FEE_TYP
-            result.append(channelInfo)
+            result.settleFeeType = item.STL_FEE_TYP
         return result
 
 
@@ -113,18 +101,16 @@ class BasicMessage:
 
     @staticmethod
     def selectByEcifId(id):
-        result = []
+        result = BasicMessage()
         data = models.PRIV_CUST_INFO.query.\
-            filter(and_(models.PRIV_CUST_INFO.CUST_NO==models.TBL_CUST_ID_CONV.CUST_NO,
-                        models.TBL_CUST_ID_CONV.ECIF_CST_ID==id)).all()
+            filter(and_(models.PRIV_CUST_INFO.CUST_NO == models.TBL_CUST_ID_CONV.CUST_NO,
+                        models.TBL_CUST_ID_CONV.ECIF_CST_ID == id)).all()
         for item in data:
-            basicMessage = BasicMessage()
-            basicMessage.workFlag = item.WORK_FLG
-            basicMessage.age = item.BIRDAY
-            basicMessage.income = item.MN_INCOM
-            basicMessage.education = item.EDUC
-            basicMessage.custStatus = item.CUST_STS
-            result.append(basicMessage)
+            result.workFlag = item.WORK_FLG
+            result.age = item.BIRDAY
+            result.income = item.MN_INCOM
+            result.education = item.EDUC
+            result.custStatus = item.CUST_STS
         return result
 
 
@@ -135,14 +121,11 @@ class FundInfo:
 
     @staticmethod
     def selectByEcifId(id):
-        result = []
-        data = models.FundFlow.query.filter(and_(models.FundFlow.SCR_TXN_ACCNO==
-        models.FundUserRelation.SCR_TXN_ACCNO, models.FundUserRelation.CST_ID==id)).all()
-        fundInfo = FundInfo()
+        result = FundInfo()
+        data = models.FundFlow.query.filter(and_(models.FundFlow.SCR_TXN_ACCNO ==
+        models.FundUserRelation.SCR_TXN_ACCNO, models.FundUserRelation.CST_ID == id)).all()
         for item in data:
-            fundInfo.txnAmount += float(item.CFM_TXNAMT)
-            fundInfo.txnLot += float(item.CFM_TXN_LOT)
-        result.append(fundInfo)
+            result.txnAmount += float(item.CFM_TXNAMT)
         return result
 
 
@@ -152,13 +135,13 @@ class TradFlow:
 
 
 class CustomMessage:
-    ecifId = ""  # ECIF客户编号
-    depositMessage = []   # 存款产品持有
-    investMessage = []  # 理财产品持有
-    bankInfo = []  # 银行信息
-    channelInfo = []  # 电子渠道个人签约客户渠道信息
-    basicMessage = []  # 电子渠道个人签约客户基本信息
-    fundInfo = []  # 基金交易成交信息
+    ecifId = None  # ECIF客户编号
+    depositMessage = None   # 存款产品持有
+    investMessage = None  # 理财产品持有
+    bankInfo = None  # 银行信息
+    channelInfo = None  # 电子渠道个人签约客户渠道信息
+    basicMessage = None  # 电子渠道个人签约客户基本信息
+    fundInfo = None  # 基金交易成交信息
 
     def selectByEcifId(id):
         customMessage = CustomMessage()
