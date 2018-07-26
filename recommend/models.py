@@ -12,6 +12,11 @@ class FundUserRelation(db.Model):
     UPLOAD_USER = db.Column(db.String(255))
     UPLOAD_BATCH = db.Column(db.String(255))
 
+    @staticmethod
+    def selectAll():
+        result = db.session.query(FundUserRelation.CST_ID).all()
+        return result
+
 
 #基金交易流水
 class FundFlow(db.Model):
@@ -351,7 +356,7 @@ class TBL_CUST_ID_CONV(db.Model):
     CUST_NO = db.Column(db.String(255))
 
 
-#电子渠道交易流水
+# 电子渠道交易流水
 class TRAD_FLOW(db.Model):
     __tablename__ = "TRAD_FLOW"
     ID = db.Column(db.Integer, primary_key=True)

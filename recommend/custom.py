@@ -1,13 +1,13 @@
-from  recommend import models, db
+from recommend import models, db
 from sqlalchemy import and_
 
 
-#存款产品持有信息
+# 存款产品持有信息
 class DepositMessage:
-    accountBalance = 0.0 #账户余额
-    accountCurrent = 0.0 #账户活期存款余额
-    accountRegular = 0.0 #账户定期存款余额
-    accountAverage = 0.0 #账户存款月日均余额
+    accountBalance = 0.0  # 账户余额
+    accountCurrent = 0.0  # 账户活期存款余额
+    accountRegular = 0.0  # 账户定期存款余额
+    accountAverage = 0.0  # 账户存款月日均余额
 
 
     @staticmethod
@@ -24,49 +24,45 @@ class DepositMessage:
         return result
 
 
-#理财产品持有信息
+# 理财产品持有信息
 class InvestMessage:
-    categoryCode = 0 #投资理财产品类别码
-    typeCode = 0 #投资理财产品类型码
-    chmtpdMonthAcm = 0 #投资理财产品月积数
-    chmtpdSeasonAcm = 0 #投资理财产品季积数
-    chmtpdYearAcm = 0 #投资理财产品年积数
-    monthAcmHpnLot = 0 #月累计发生份额
-    monthAcmHpCnt = 0 #月累计发生次数
-    monthAverageBal = 0 #月日均余额
-    lastTmTxnDt = "" #最后一次交易日期
-
+    categoryCode = 0  # 投资理财产品类别码
+    typeCode = 0  # 投资理财产品类型码
+    chmtpdMonthAcm = 0  # 投资理财产品月积数
+    chmtpdSeasonAcm = 0  # 投资理财产品季积数
+    chmtpdYearAcm = 0  # 投资理财产品年积数
+    monthAcmHpnLot = 0  # 月累计发生份额
+    monthAcmHpCnt = 0  # 月累计发生次数
+    monthAverageBal = 0  # 月日均余额
 
 
     @staticmethod
     def selectByEcifId(id):
         result = []
         data = models.ADS_CUST_HOLD_INVEST.query.filter_by(ECIF_CST_ID=id).all()
+        investMessage = InvestMessage()
         for item in data:
-            investMessage = InvestMessage()
-            investMessage.category_code = item.IVS_CHMTPD_CGY_CD
-            investMessage.type_code = item.IVS_CHMTPD_TP_CD
-            investMessage.chmtpdMonthAcm = item.IVS_CHMTPD_MO_ACM
-            investMessage.chmtpdSeasonAcm = item.IVS_CHMTPD_SSN_ACM
-            investMessage.chmtpdYearAcm = item.IVS_CHMTPD_YR_ACM
-            investMessage.monthAcmHpnLot = item.MO_ACM_HPN_LOT
-            investMessage.monthAcmHpCnt = item.MO_ACM_HPCNT
-            investMessage.monthAverageBal = item.MO_DABAL
-            investMessage.lastTmTxnDt = item.LASTTM_TXN_DT
-
-            result.append(investMessage)
+            investMessage.categoryCode = item.IVS_CHMTPD_CGY_CD
+            investMessage.typeCode = item.IVS_CHMTPD_TP_CD
+            investMessage.chmtpdMonthAcm += float(item.IVS_CHMTPD_MO_ACM)
+            investMessage.chmtpdSeasonAcm += float(item.IVS_CHMTPD_SSN_ACM)
+            investMessage.chmtpdYearAcm += float(item.IVS_CHMTPD_YR_ACM)
+            investMessage.monthAcmHpnLot += float(item.MO_ACM_HPN_LOT)
+            investMessage.monthAcmHpCnt += float(item.MO_ACM_HPCNT)
+            investMessage.monthAverageBal += float(item.MO_DABAL)
+        result.append(investMessage)
         return result
 
-#银行信息
+# 银行信息
 class BankInfo:
-    chmtPdBalance = 0 #我行理财产品余额
-    fundBalance = 0 #基金余额
-    monthFundNum = 0 #基金月日均数
-    timePointAum = 0 #客户时点AUM值
-    monthAverageAum = 0 #客户月均AUM值
-    yearDailyAum = 0 #客户年日均AUM值
-    fundFirstBuy = "" #基金首次购买时间
-    fundRecentlyBuy = "" #最近一次购买基金时间
+    chmtPdBalance = 0  # 我行理财产品余额
+    fundBalance = 0  # 基金余额
+    monthFundNum = 0  # 基金月日均数
+    timePointAum = 0  # 客户时点AUM值
+    monthAverageAum = 0  # 客户月均AUM值
+    yearDailyAum = 0  # 客户年日均AUM值
+    fundFirstBuy = ""  # 基金首次购买时间
+    fundRecentlyBuy = ""  # 最近一次购买基金时间
 
     @staticmethod
     def selectByEcifId(id):
@@ -90,9 +86,9 @@ class LoanInfo:
     pass
 
 
-#电子渠道个人签约客户渠道信息
+# 电子渠道个人签约客户渠道信息
 class ChannelInfo:
-    settleFeeType = "" #结算费收费方式
+    settleFeeType = ""  # 结算费收费方式
 
     @staticmethod
     def selectByEcifId(id):
@@ -107,13 +103,13 @@ class ChannelInfo:
         return result
 
 
-#电子渠道个人签约客户基本信息
+# 电子渠道个人签约客户基本信息
 class BasicMessage:
-    workFlag = 0 #员工标志
-    age = 0 #年龄
-    income = 0 #月收入
-    education = "" #学历
-    custStatus = 0 #客户平台状态
+    workFlag = 0  # 员工标志
+    age = 0  # 年龄
+    income = 0  # 月收入
+    education = ""  # 学历
+    custStatus = 0  # 客户平台状态
 
     @staticmethod
     def selectByEcifId(id):
@@ -132,42 +128,37 @@ class BasicMessage:
         return result
 
 
-
-#基金交易成交信息
+# 基金交易成交信息
 class FundInfo:
-    txnAmount = 0.0  # 交易金额
-    txnAccountNum = "" #基金交易账号
-    customAccountNum = "" #客户基金账号
-    txnLot = 0.0 #交易份额
+    txnAmount = 0.0   # 交易金额
+    txnLot = 0.0  # 交易份额
 
     @staticmethod
     def selectByEcifId(id):
         result = []
         data = models.FundFlow.query.filter(and_(models.FundFlow.SCR_TXN_ACCNO==
-        models.FundUserRelation.SCR_TXN_ACCNO,models.FundUserRelation.CST_ID==id)).all()
+        models.FundUserRelation.SCR_TXN_ACCNO, models.FundUserRelation.CST_ID==id)).all()
+        fundInfo = FundInfo()
         for item in data:
-            fundInfo = FundInfo()
-            fundInfo.txnAmount = item.CFM_TXNAMT
-            fundInfo.txnAccountNum = item.SCR_TXN_ACCNO
-            fundInfo.customAccountNum = item.CST_SCRTACNO
-            fundInfo.txnLot = item.CFM_TXN_LOT
-            result.append(fundInfo)
+            fundInfo.txnAmount += float(item.CFM_TXNAMT)
+            fundInfo.txnLot += float(item.CFM_TXN_LOT)
+        result.append(fundInfo)
         return result
 
 
-#电子渠道交易流水
+# 电子渠道交易流水
 class TradFlow:
     pass
 
 
 class CustomMessage:
-    ecifId = "" #ECIF客户编号
-    depositMessage = [] #存款产品持有
-    investMessage = [] #理财产品持有
-    bankInfo = [] #银行信息
-    channelInfo = [] #电子渠道个人签约客户渠道信息
-    basicMessage = [] #电子渠道个人签约客户基本信息
-    fundInfo = [] #基金交易成交信息
+    ecifId = ""  # ECIF客户编号
+    depositMessage = []   # 存款产品持有
+    investMessage = []  # 理财产品持有
+    bankInfo = []  # 银行信息
+    channelInfo = []  # 电子渠道个人签约客户渠道信息
+    basicMessage = []  # 电子渠道个人签约客户基本信息
+    fundInfo = []  # 基金交易成交信息
 
     def selectByEcifId(id):
         customMessage = CustomMessage()
