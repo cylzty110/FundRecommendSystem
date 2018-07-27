@@ -1,6 +1,5 @@
 import numpy as np
 from sklearn import preprocessing
-from sklearn.cluster import AgglomerativeClustering
 
 from recommend import models
 from recommend.custom import CustomMessage
