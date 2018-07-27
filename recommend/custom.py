@@ -63,7 +63,7 @@ class InvestMessage:
 
 # 银行信息
 class BankInfo:
-    chmtPdBalance = None  # 我行理财产品余额
+    # chmtPdBalance = None  # 我行理财产品余额
     fundBalance = None  # 基金余额
     monthFundNum = None  # 基金月日均数
     timePointAum = None  # 客户时点AUM值
@@ -71,7 +71,7 @@ class BankInfo:
     yearDailyAum = None  # 客户年日均AUM值
 
     def __init__(self):
-        self.chmtPdBalance = 0.0
+        # self.chmtPdBalance = 0.0
         self.fundBalance = 0.0
         self.monthFundNum = 0.0
         self.timePointAum = 0.0
@@ -83,7 +83,7 @@ class BankInfo:
         result = BankInfo()
         data = models.ADS_PERS_CUST_BANK_INFO.query.filter_by(CST_NO=id).all()
         for item in data:
-            result.chmtPdBalance = float(item.CCB_CHMTPD_BAL)
+            # result.chmtPdBalance = float(item.CCB_CHMTPD_BAL)
             result.fundBalance = float(item.FND_BAL)
             result.monthFundNum = float(item.FND_MO_DA_NUM)
             result.timePointAum = float(item.CST_TMPNTAUM_VAL)
@@ -95,7 +95,7 @@ class BankInfo:
 class LoanInfo:
     pass
 
-
+"""
 # 电子渠道个人签约客户渠道信息
 class ChannelInfo:
     settleFeeType = None  # 结算费收费方式
@@ -112,18 +112,16 @@ class ChannelInfo:
         for item in data:
             result.settleFeeType = item.STL_FEE_TYP
         return result
-
+"""
 
 # 电子渠道个人签约客户基本信息
 class BasicMessage:
-    workFlag = None  # 员工标志
     age = None  # 年龄
     income = None  # 月收入
     education = None  # 学历
     custStatus = None  # 客户平台状态
 
     def __init__(self):
-        self.workFlag = "empty"
         self.age = 0
         self.income = 0
         self.education = "empty"
@@ -136,7 +134,6 @@ class BasicMessage:
             filter(and_(models.PRIV_CUST_INFO.CUST_NO == models.TBL_CUST_ID_CONV.CUST_NO,
                         models.TBL_CUST_ID_CONV.ECIF_CST_ID == id)).all()
         for item in data:
-            result.workFlag = item.WORK_FLG
             if item.BIRDAY is not None:
                 result.age = int(2018 - int(item.BIRDAY)/10000)
             result.income = int(item.MN_INCOM)
@@ -173,7 +170,7 @@ class CustomMessage:
     depositMessage = None   # 存款产品持有
     investMessage = None  # 理财产品持有
     bankInfo = None  # 银行信息
-    channelInfo = None  # 电子渠道个人签约客户渠道信息
+    # channelInfo = None  # 电子渠道个人签约客户渠道信息
     basicMessage = None  # 电子渠道个人签约客户基本信息
     fundInfo = None  # 基金交易成交信息
 
@@ -182,7 +179,7 @@ class CustomMessage:
         self.depositMessage = DepositMessage()
         self.investMessage = InvestMessage()
         self.bankInfo = BankInfo()
-        self.channelInfo = ChannelInfo()
+        # self.channelInfo = ChannelInfo()
         self.basicMessage = BasicMessage()
         self.fundInfo = FundInfo()
 
@@ -192,7 +189,7 @@ class CustomMessage:
         customMessage.depositMessage = DepositMessage.selectByEcifId(id)
         customMessage.investMessage = InvestMessage.selectByEcifId(id)
         customMessage.bankInfo = BankInfo.selectByEcifId(id)
-        customMessage.channelInfo = ChannelInfo.selectByEcifId(id)
+        # customMessage.channelInfo = ChannelInfo.selectByEcifId(id)
         customMessage.basicMessage = BasicMessage.selectByEcifId(id)
         customMessage.fundInfo = FundInfo.selectByEcifId(id)
         return customMessage
