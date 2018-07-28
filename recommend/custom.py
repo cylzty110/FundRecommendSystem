@@ -61,9 +61,9 @@ class InvestMessage:
             result.monthAverageBal += float(item.MO_DABAL)
         return result
 
+
 # 银行信息
 class BankInfo:
-    # chmtPdBalance = None  # 我行理财产品余额
     fundBalance = None  # 基金余额
     monthFundNum = None  # 基金月日均数
     timePointAum = None  # 客户时点AUM值
@@ -83,7 +83,6 @@ class BankInfo:
         result = BankInfo()
         data = models.ADS_PERS_CUST_BANK_INFO.query.filter_by(CST_NO=id).all()
         for item in data:
-            # result.chmtPdBalance = float(item.CCB_CHMTPD_BAL)
             result.fundBalance = float(item.FND_BAL)
             result.monthFundNum = float(item.FND_MO_DA_NUM)
             result.timePointAum = float(item.CST_TMPNTAUM_VAL)
@@ -91,28 +90,6 @@ class BankInfo:
             result.yearDailyAum = float(item.CST_YR_DAAUM_VAL)
         return result
 
-
-class LoanInfo:
-    pass
-
-"""
-# 电子渠道个人签约客户渠道信息
-class ChannelInfo:
-    settleFeeType = None  # 结算费收费方式
-
-    def __init__(self):
-        self.settleFeeType = "empty"
-
-    @staticmethod
-    def selectByEcifId(id):
-        result = ChannelInfo()
-        data = models.PRIV_CHANL_INFO.query.\
-            filter(and_(models.TBL_CUST_ID_CONV.ECIF_CST_ID == id,
-                        models.PRIV_CHANL_INFO.CUST_NO == models.TBL_CUST_ID_CONV.CUST_NO)).all()
-        for item in data:
-            result.settleFeeType = item.STL_FEE_TYP
-        return result
-"""
 
 # 电子渠道个人签约客户基本信息
 class BasicMessage:
@@ -160,17 +137,11 @@ class FundInfo:
         return result
 
 
-# 电子渠道交易流水
-class TradFlow:
-    pass
-
-
 class CustomMessage:
     ecifId = None  # ECIF客户编号
     depositMessage = None   # 存款产品持有
     investMessage = None  # 理财产品持有
     bankInfo = None  # 银行信息
-    # channelInfo = None  # 电子渠道个人签约客户渠道信息
     basicMessage = None  # 电子渠道个人签约客户基本信息
     fundInfo = None  # 基金交易成交信息
 
@@ -179,7 +150,6 @@ class CustomMessage:
         self.depositMessage = DepositMessage()
         self.investMessage = InvestMessage()
         self.bankInfo = BankInfo()
-        # self.channelInfo = ChannelInfo()
         self.basicMessage = BasicMessage()
         self.fundInfo = FundInfo()
 
@@ -189,7 +159,6 @@ class CustomMessage:
         customMessage.depositMessage = DepositMessage.selectByEcifId(id)
         customMessage.investMessage = InvestMessage.selectByEcifId(id)
         customMessage.bankInfo = BankInfo.selectByEcifId(id)
-        # customMessage.channelInfo = ChannelInfo.selectByEcifId(id)
         customMessage.basicMessage = BasicMessage.selectByEcifId(id)
         customMessage.fundInfo = FundInfo.selectByEcifId(id)
         return customMessage
