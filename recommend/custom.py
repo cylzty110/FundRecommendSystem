@@ -4,16 +4,11 @@ from sqlalchemy import and_
 
 # 存款产品持有信息
 class DepositMessage:
-    accountBalance = None  # 账户余额
-    accountCurrent = None  # 账户活期存款余额
-    accountRegular = None  # 账户定期存款余额
-    accountAverage = None  # 账户存款月日均余额
-
     def __init__(self):
-        self.accountBalance = 0.0
-        self.accountCurrent = 0.0
-        self.accountRegular = 0.0
-        self.accountAverage = 0.0
+        self.accountBalance = 0.0  # 账户余额
+        self.accountCurrent = 0.0  # 账户活期存款余额
+        self.accountRegular = 0.0  # 账户定期存款余额
+        self.accountAverage = 0.0  # 账户存款月日均余额
 
     @staticmethod
     def selectByEcifId(id):
@@ -29,22 +24,14 @@ class DepositMessage:
 
 # 理财产品持有信息
 class InvestMessage:
-    typeCode = None  # 投资理财产品类型码
-    chmtpdMonthAcm = None  # 投资理财产品月积数
-    chmtpdSeasonAcm = None  # 投资理财产品季积数
-    chmtpdYearAcm = None  # 投资理财产品年积数
-    monthAcmHpnLot = None  # 月累计发生份额
-    monthAcmHpCnt = None  # 月累计发生次数
-    monthAverageBal = None  # 月日均余额
-
     def __init__(self):
-        self.typeCode = "empty"
-        self.chmtpdMonthAcm = 0.0
-        self.chmtpdSeasonAcm = 0.0
-        self.chmtpdYearAcm = 0.0
-        self.monthAcmHpnLot = 0.0
-        self.monthAcmHpCnt = 0.0
-        self.monthAverageBal = 0.0
+        self.typeCode = "empty"  # 投资理财产品类型码
+        self.chmtpdMonthAcm = 0.0  # 投资理财产品月积数
+        self.chmtpdSeasonAcm = 0.0  # 投资理财产品季积数
+        self.chmtpdYearAcm = 0.0  # 投资理财产品年积数
+        self.monthAcmHpnLot = 0.0  # 月累计发生份额
+        self.monthAcmHpCnt = 0.0  # 月累计发生次数
+        self.monthAverageBal = 0.0  # 月日均余额
 
     @staticmethod
     def selectByEcifId(id):
@@ -64,19 +51,12 @@ class InvestMessage:
 
 # 银行信息
 class BankInfo:
-    fundBalance = None  # 基金余额
-    monthFundNum = None  # 基金月日均数
-    timePointAum = None  # 客户时点AUM值
-    monthAverageAum = None  # 客户月均AUM值
-    yearDailyAum = None  # 客户年日均AUM值
-
     def __init__(self):
-        # self.chmtPdBalance = 0.0
-        self.fundBalance = 0.0
-        self.monthFundNum = 0.0
-        self.timePointAum = 0.0
-        self.monthAverageAum = 0.0
-        self.yearDailyAum = 0.0
+        self.fundBalance = 0.0  # 基金余额
+        self.monthFundNum = 0.0  # 基金月日均数
+        self.timePointAum = 0.0  # 客户时点AUM值
+        self.monthAverageAum = 0.0  # 客户月均AUM值
+        self.yearDailyAum = 0.0  # 客户年日均AUM值
 
     @staticmethod
     def selectByEcifId(id):
@@ -93,16 +73,11 @@ class BankInfo:
 
 # 电子渠道个人签约客户基本信息
 class BasicMessage:
-    age = None  # 年龄
-    income = None  # 月收入
-    education = None  # 学历
-    custStatus = None  # 客户平台状态
-
     def __init__(self):
-        self.age = 0
-        self.income = 0
-        self.education = "empty"
-        self.custStatus = 0
+        self.age = 0  # 年龄
+        self.income = 0  # 月收入
+        self.education = "empty"  # 学历
+        self.custStatus = 0  # 客户平台状态
 
     @staticmethod
     def selectByEcifId(id):
@@ -122,10 +97,8 @@ class BasicMessage:
 
 # 基金交易成交信息
 class FundInfo:
-    txnAmount = None   # 交易金额
-
     def __init__(self):
-        self.txnAmount = 0.0
+        self.txnAmount = 0.0   # 交易金额
 
     @staticmethod
     def selectByEcifId(id):
@@ -138,20 +111,13 @@ class FundInfo:
 
 
 class CustomMessage:
-    ecifId = None  # ECIF客户编号
-    depositMessage = None   # 存款产品持有
-    investMessage = None  # 理财产品持有
-    bankInfo = None  # 银行信息
-    basicMessage = None  # 电子渠道个人签约客户基本信息
-    fundInfo = None  # 基金交易成交信息
-
     def __init__(self):
-        self.ecifId = 0
-        self.depositMessage = DepositMessage()
-        self.investMessage = InvestMessage()
-        self.bankInfo = BankInfo()
-        self.basicMessage = BasicMessage()
-        self.fundInfo = FundInfo()
+        self.ecifId = 0  # ECIF客户编号
+        self.depositMessage = DepositMessage()   # 存款产品持有
+        self.investMessage = InvestMessage()  # 理财产品持有
+        self.bankInfo = BankInfo()  # 银行信息
+        self.basicMessage = BasicMessage()  # 电子渠道个人签约客户基本信息
+        self.fundInfo = FundInfo()  # 基金交易成交信息
 
     def selectByEcifId(id):
         customMessage = CustomMessage()
