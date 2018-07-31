@@ -10,6 +10,7 @@ class CST_FCS_FND:
     @staticmethod
     def selectByFundId(id):
         result = CST_FCS_FND()
+
         sql = "select count(*) from CST_FCS_FND where SCR_PD_ECD = %s"
         result.purchaseNum = db.session.execute(sql, id)
         return result

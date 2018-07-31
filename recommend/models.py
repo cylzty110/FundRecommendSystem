@@ -13,7 +13,6 @@ class FundUserRelation(db.Model):
     UPLOAD_BATCH = db.Column(db.String(255))
 
 
-
 # 基金交易流水
 class FundFlow(db.Model):
     __tablename__ = "SCR_TXNDN_INF"
@@ -36,7 +35,7 @@ class FundFlow(db.Model):
 
     @staticmethod
     def selectAll():
-        result = db.session.query(FundUserRelation.CST_ID,FundFlow.SCR_PD_ECD).\
+        result = db.session.query(FundUserRelation.CST_ID, FundFlow.SCR_PD_ECD).\
             filter(FundUserRelation.SCR_TXN_ACCNO == FundFlow.SCR_TXN_ACCNO).all()
         return result
 
@@ -78,7 +77,7 @@ class TaskLog(db.Model):
     CREATE_DATE = db.Column(db.String(255))
     TASK_STATUS = db.Column(db.String(255))
 
-    #批量插入
+    # 批量插入
     @staticmethod
     def insert(self):
         db.session.add(self)
@@ -104,7 +103,7 @@ class RecommendData(db.Model):
         db.session.execute("truncate table TT_FUND_DATA")
         db.session.commit()
 
-    #批量插入
+    # 批量插入
     @staticmethod
     def batchInsert(data):
         list =  tools.classToDict(data)
@@ -147,7 +146,9 @@ class ADS_CUST_HOLD_DEPOSIT(db.Model):
     CNVRCNYACCDDEPMODABAL = db.Column(db.String(255))
     ACC_DEP_MO_DABAL = db.Column(db.String(255))
     CNVRCNYACCDEPMO_DABAL = db.Column(db.String(255))
-
+    UPLOAD_TIME = db.Column(db.String(255))
+    UPLOAD_USER = db.Column(db.String(255))
+    UPLOAD_BATCH = db.Column(db.String(255))
 
 
 # 客户理财产品持有信息
@@ -180,6 +181,9 @@ class ADS_CUST_HOLD_INVEST(db.Model):
     CNVR_CNY_MO_DABAL = db.Column(db.String(255))
     LASTTM_TXN_DT = db.Column(db.String(255))
     SIGN_DT = db.Column(db.String(255))
+    UPLOAD_TIME = db.Column(db.String(255))
+    UPLOAD_USER = db.Column(db.String(255))
+    UPLOAD_BATCH = db.Column(db.String(255))
 
 
 # 个人客户银行管理信息
@@ -260,6 +264,9 @@ class ADS_PERS_CUST_BANK_INFO(db.Model):
     RCTLY_OC_PRCH_INS_TM = db.Column(db.String(255))
     PM_FTM_PRCH_TM = db.Column(db.String(255))
     RCTLY_OC_PRCH_PM_TM = db.Column(db.String(255))
+    UPLOAD_TIME = db.Column(db.String(255))
+    UPLOAD_USER = db.Column(db.String(255))
+    UPLOAD_BATCH = db.Column(db.String(255))
 
 
 # 个贷产品持有信息
@@ -287,6 +294,9 @@ class ADS_PERS_LOAN_PROD_HOLD_INFO(db.Model):
     SSNINNRNONACR_PNP_ACM = db.Column(db.String(255))
     MOINNR_NONACR_PNP_ACM = db.Column(db.String(255))
     LN_DSTR_AMT = db.Column(db.String(255))
+    UPLOAD_TIME = db.Column(db.String(255))
+    UPLOAD_USER = db.Column(db.String(255))
+    UPLOAD_BATCH = db.Column(db.String(255))
 
 
 # 电子渠道个人签约客户渠道信息
@@ -307,6 +317,9 @@ class PRIV_CHANL_INFO(db.Model):
     REB_RAT = db.Column(db.String(255))
     CHG_DATE = db.Column(db.String(255))
     CONTRIBUTION_LEVEL = db.Column(db.String(255))
+    UPLOAD_TIME = db.Column(db.String(255))
+    UPLOAD_USER = db.Column(db.String(255))
+    UPLOAD_BATCH = db.Column(db.String(255))
 
 
 # 电子渠道个人签约客户基本信息
@@ -341,7 +354,9 @@ class PRIV_CUST_INFO(db.Model):
     REC_DAY = db.Column(db.String(255))
     CHG_DAY = db.Column(db.String(255))
     CUST_STS = db.Column(db.String(255))
-
+    UPLOAD_TIME = db.Column(db.String(255))
+    UPLOAD_USER = db.Column(db.String(255))
+    UPLOAD_BATCH = db.Column(db.String(255))
 
 
 # 关联关系表
@@ -350,6 +365,9 @@ class TBL_CUST_ID_CONV(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
     ECIF_CST_ID = db.Column(db.String(255))
     CUST_NO = db.Column(db.String(255))
+    UPLOAD_TIME = db.Column(db.String(255))
+    UPLOAD_USER = db.Column(db.String(255))
+    UPLOAD_BATCH = db.Column(db.String(255))
 
     @staticmethod
     def selectAll():
@@ -387,6 +405,9 @@ class TRAD_FLOW(db.Model):
     ASS_ACCT_BRAN = db.Column(db.String(255))
     TOT_FLG = db.Column(db.String(255))
     TRAD_STS = db.Column(db.String(255))
+    UPLOAD_TIME = db.Column(db.String(255))
+    UPLOAD_USER = db.Column(db.String(255))
+    UPLOAD_BATCH = db.Column(db.String(255))
 
 
 class CST_FCS_FND(db.Model):
@@ -417,6 +438,8 @@ class CST_FCS_FND(db.Model):
     DATA_UDT_DT_TM = db.Column(db.String(255))  # 数据更新日期时间
     CUR_VLD_IND = db.Column(db.String(255))  # 当前有效标志
     STRUSIND = db.Column(db.String(255))  # 启用标志
+    UPLOAD_USER = db.Column(db.String(255))
+    UPLOAD_BATCH = db.Column(db.String(255))
 
 
 class CST_FND_PFT_INFO(db.Model):
@@ -446,6 +469,8 @@ class CST_FND_PFT_INFO(db.Model):
     STMD_DT = db.Column(db.String(255))  # 状态变更日期
     RCRD_UDT_TM = db.Column(db.String(255))  # 记录更新时间
     DATA_UDT_DT_TM = db.Column(db.String(255))  # 数据更新日期时间
+    UPLOAD_USER = db.Column(db.String(255))
+    UPLOAD_BATCH = db.Column(db.String(255))
 
 
 class FND_AUTO_TXN_ITT_DTL(db.Model):
@@ -481,6 +506,8 @@ class FND_AUTO_TXN_ITT_DTL(db.Model):
     DATA_UDT_DT_TM = db.Column(db.String(255))  # 数据更新日期时间
     LCL_YRMO_DAY = db.Column(db.String(255))  # 本地年月日
     LCL_HR_GRD_SCND = db.Column(db.String(255))  # 本地时分秒
+    UPLOAD_USER = db.Column(db.String(255))
+    UPLOAD_BATCH = db.Column(db.String(255))
 
 
 class FND_BSC_INF(db.Model):
@@ -542,6 +569,8 @@ class FND_BSC_INF(db.Model):
     CSDC_FND_RSK_GRD_CD = db.Column(db.String(255))  # 中登基金风险等级代码
     MSG_LINKS_SKP_ADR = db.Column(db.String(255))  # 消息链接跳转地址
     AD_LINKS_ADR_CNTNT = db.Column(db.String(255))  # 广告链接地址内容
+    UPLOAD_USER = db.Column(db.String(255))
+    UPLOAD_BATCH = db.Column(db.String(255))
 
 
 class FND_FTR_ATTR(db.Model):
@@ -565,6 +594,8 @@ class FND_FTR_ATTR(db.Model):
     STMD_DT = db.Column(db.String(255))  # 状态变更日期
     RCRD_UDT_TM = db.Column(db.String(255))  # 记录更新时间
     DATA_UDT_DT_TM = db.Column(db.String(255))  # 数据更新日期时间
+    UPLOAD_USER = db.Column(db.String(255))
+    UPLOAD_BATCH = db.Column(db.String(255))
 
 
 class FND_INTLG_TXN_STRTG(db.Model):
@@ -592,6 +623,8 @@ class FND_INTLG_TXN_STRTG(db.Model):
     STMD_DT = db.Column(db.String(255))  # 状态变更日期
     RCRD_UDT_TM = db.Column(db.String(255))  # 记录更新时间
     DATA_UDT_DT_TM = db.Column(db.String(255))  # 数据更新日期时间
+    UPLOAD_USER = db.Column(db.String(255))
+    UPLOAD_BATCH = db.Column(db.String(255))
 
 
 class FND_PD_DVDN_INF(db.Model):
@@ -616,6 +649,8 @@ class FND_PD_DVDN_INF(db.Model):
     STMD_DT = db.Column(db.String(255))  # 状态变更日期
     RCRD_UDT_TM = db.Column(db.String(255))  # 记录更新时间
     DATA_UDT_DT_TM = db.Column(db.String(255))  # 数据更新日期时间
+    UPLOAD_USER = db.Column(db.String(255))
+    UPLOAD_BATCH = db.Column(db.String(255))
 
 
 class FND_TFROFCSTD_INF(db.Model):
@@ -633,6 +668,8 @@ class FND_TFROFCSTD_INF(db.Model):
     RCRD_UDT_TM = db.Column(db.String(255))  # 记录更新时间
     IMPR_DT = db.Column(db.String(255))  # 导入日期
     DATA_UDT_DT_TM = db.Column(db.String(255))  # 数据更新日期时间
+    UPLOAD_USER = db.Column(db.String(255))
+    UPLOAD_BATCH = db.Column(db.String(255))
 
 
 
