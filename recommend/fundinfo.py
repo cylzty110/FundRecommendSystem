@@ -5,7 +5,7 @@ from sqlalchemy import and_, func
 # 客户关注基金
 class CST_FCS_FND:
     def __init__(self):
-        self.purchase_num = 0  # 购买该基金人数
+        self.purchaseNum = 0  # 购买该基金人数
 
     @staticmethod
     def selectByFundId(id):
@@ -46,7 +46,8 @@ class FND_BSC_INF:
             result.fundPrice = float(item.FND_ISSU_PRC)
             result.fundFirstFeeRate = float(item.FNDFTMSALESVCFEE_RATE)
             result.fundYearFeeRate = float(item.FNDSALESVCFEEYR_FEERT)
-            result.type = item.GLX_FND_LVL2_CL_ECD
+            if item.GLX_FND_LVL2_CL_ECD:
+                result.type = item.GLX_FND_LVL2_CL_ECD
             if item.RSK_GRD_CD:
                 result.riskGrade = int(item.RSK_GRD_CD)
             if item.FND_RSK_GRD_EVAL:
@@ -91,13 +92,8 @@ class FundInfo:
     def __init__(self):
         self.fundId = 0
         self.cst_fcs_fnd = CST_FCS_FND()
-        self.cst_fnd_pft_info = CST_FND_PFT_INFO()
-        self.fnd_auto_txn_itt_dtl = FND_AUTO_TXN_ITT_DTL()
         self.fnd_bsc_inf = FND_BSC_INF()
-        self.fnd_ftr_attr = FND_FTR_ATTR()
-        self.fnd_intlg_txn_strtg = FND_INTLG_TXN_STRTG()
         self.fnd_pd_dvdn_inf = FND_PD_DVDN_INF()
-        self.fnd_tfrofcstd_inf = FND_TFROFCSTD_INF()
 
     @staticmethod
     def selectByFundId(id):
