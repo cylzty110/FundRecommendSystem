@@ -84,13 +84,13 @@ class BasicMessage:
         result = BasicMessage()
         data = models.PRIV_CUST_INFO.query.\
             filter(and_(models.PRIV_CUST_INFO.CUST_NO == models.TBL_CUST_ID_CONV.CUST_NO,
-                        models.TBL_CUST_ID_CONV.ECIF_CST_ID == id)).all()
+                        models.TBL_CUST_ID_CONV.ECIF_CUST_NO == id)).all()
         for item in data:
-            if item.BIRDAY is not None:
+            if item.BIRDAY:
                 result.age = int(2018 - int(item.BIRDAY)/10000)
             result.income = int(item.MN_INCOM)
             result.education = item.EDUC
-            if item.CUST_STS is not None:
+            if item.CUST_STS:
                 result.custStatus = int(item.CUST_STS)
         return result
 

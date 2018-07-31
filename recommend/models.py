@@ -1,4 +1,4 @@
-from recommend import db, tools
+from recommend import db
 import flask_sqlalchemy
 
 
@@ -58,10 +58,6 @@ class Similarity(db.Model):
         db.session.execute("truncate table SIMILARITY")
         db.session.commit()
 
-    def batchInsert(data):
-        list =  tools.classToDict(data)
-        db.session.execute(RecommendData.__table__.insert(), list)
-
 
 # 日志
 class TaskLog(db.Model):
@@ -102,12 +98,6 @@ class RecommendData(db.Model):
     def deleteAll():
         db.session.execute("truncate table TT_FUND_DATA")
         db.session.commit()
-
-    # 批量插入
-    @staticmethod
-    def batchInsert(data):
-        list =  tools.classToDict(data)
-        db.session.execute(RecommendData.__table__.insert(),list)
 
 
 # 个人客户存款产品持有
@@ -180,7 +170,7 @@ class ADS_CUST_HOLD_INVEST(db.Model):
     MO_DABAL = db.Column(db.String(255))
     CNVR_CNY_MO_DABAL = db.Column(db.String(255))
     LASTTM_TXN_DT = db.Column(db.String(255))
-    SIGN_DT = db.Column(db.String(255))
+    OPNACC_SIGN_DT = db.Column(db.String(255))
     UPLOAD_TIME = db.Column(db.String(255))
     UPLOAD_USER = db.Column(db.String(255))
     UPLOAD_BATCH = db.Column(db.String(255))
@@ -325,8 +315,7 @@ class PRIV_CHANL_INFO(db.Model):
 # 电子渠道个人签约客户基本信息
 class PRIV_CUST_INFO(db.Model):
     __tablename__ = "PRIV_CUST_INFO"
-    ID = db.Column(db.Integer, primary_key=True)
-    CUST_NO = db.Column(db.String(255))
+    CUST_NO = db.Column(db.String(255), primary_key=True)
     CERT_ID = db.Column(db.String(255))
     WORK_FLG = db.Column(db.String(255))
     SEX = db.Column(db.String(255))
@@ -363,7 +352,7 @@ class PRIV_CUST_INFO(db.Model):
 class TBL_CUST_ID_CONV(db.Model):
     __tablename__ = "TBL_CUST_ID_CONV"
     ID = db.Column(db.Integer, primary_key=True)
-    ECIF_CST_ID = db.Column(db.String(255))
+    ECIF_CUST_NO = db.Column(db.String(255))
     CUST_NO = db.Column(db.String(255))
     UPLOAD_TIME = db.Column(db.String(255))
     UPLOAD_USER = db.Column(db.String(255))
@@ -371,7 +360,7 @@ class TBL_CUST_ID_CONV(db.Model):
 
     @staticmethod
     def selectAll():
-        result = db.session.query(TBL_CUST_ID_CONV.ECIF_CST_ID).all()
+        result = db.session.query(TBL_CUST_ID_CONV.ECIF_CUST_NO).all()
         return result
 
 

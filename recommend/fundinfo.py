@@ -10,9 +10,9 @@ class CST_FCS_FND:
     @staticmethod
     def selectByFundId(id):
         result = CST_FCS_FND()
-
-        sql = "select count(*) from CST_FCS_FND where SCR_PD_ECD = %s"
-        result.purchaseNum = db.session.execute(sql, id)
+        sql = "select count(*) from CST_FCS_FND where SCR_PD_ECD = '" + id + "'"
+        data = db.session.execute(sql).fetchall()
+        result.purchaseNum = data[0][0]
         return result
 
 
@@ -42,13 +42,15 @@ class FND_BSC_INF:
         result = FND_BSC_INF()
         data = models.FND_BSC_INF.query.filter_by(SCR_PD_ECD=id).all()
         for item in data:
-            result.fundValue = float(data.FND_DNMN)
-            result.fundPrice = float(data.FND_ISSU_PRC)
-            result.fundFirstFeeRate = float(data.FNDFTMSALESVCFEE_RATE)
-            result.fundYearFeeRate = float(data.FNDSALESVCFEEYR_FEERT)
-            result.type = data.GLX_FND_LVL2_CL_ECD
-            result.riskGrade = int(data.RSK_GRD_CD)
-            result.riskValue = float(data.FND_RSK_GRD_EVAL)
+            result.fundValue = float(item.FND_DNMN)
+            result.fundPrice = float(item.FND_ISSU_PRC)
+            result.fundFirstFeeRate = float(item.FNDFTMSALESVCFEE_RATE)
+            result.fundYearFeeRate = float(item.FNDSALESVCFEEYR_FEERT)
+            result.type = item.GLX_FND_LVL2_CL_ECD
+            if item.RSK_GRD_CD:
+                result.riskGrade = int(item.RSK_GRD_CD)
+            if item.FND_RSK_GRD_EVAL:
+                result.riskValue = float(item.FND_RSK_GRD_EVAL)
         return result
 
 
@@ -73,9 +75,10 @@ class FND_PD_DVDN_INF:
     def selectByFundId(id):
         result = FND_PD_DVDN_INF()
         data = models.FND_PD_DVDN_INF.query.filter_by(SCR_PD_ECD=id).all()
-        result.unitFundBonu = data.UNIT_FND_DVDN_AMT
-        result.thisUnitFundBonu = data.THS_FND_UNIT_DVDN_AMT
-        result.yearAmount = data.YR_ACAMT
+        for item in data:
+            result.unitFundBonu = item.UNIT_FND_DVDN_AMT
+            result.thisUnitFundBonu = item.THS_FND_UNIT_DVDN_AMT
+            result.yearAmount = item.YR_ACAMT
         return result
 
 
