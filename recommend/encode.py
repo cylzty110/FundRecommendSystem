@@ -10,7 +10,7 @@ def intervalencode(data, bins, labels):
     return result
 
 
-# 独热编码
+# one-hot编码
 def onehotencode(data):
     data = pd.get_dummies(data)
     result = np.array(data)
@@ -26,12 +26,14 @@ def minmaxencode(data):
         data[index] = (num - Min) / (Max - Min)
     return data
 
-
 # 数据标准化
-def normalization(data):
+def standardization(data):
     result = preprocessing.scale(data, axis=0, with_mean=True, with_std=True)
     return result
 
-
+# 数据正则化
+def normalization(data):
+    result = preprocessing.normalize(data,norm='l2')
+    return result
 
 
