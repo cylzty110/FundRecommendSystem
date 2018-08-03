@@ -11,10 +11,23 @@ def classToJson(obj):
     return json_str
 
 
+# 由数字生成对应字母
+def getAlphabet(num):
+    result = ""
+    while num > 0:
+        m = num % 26
+        if m == 0:
+            m = 26
+        result = chr(64 + m) + result
+        num = int((num - m) / 26)
+    return result
+
+
 # 将数据库数据转换为DataFrame类型数据
 def getUserData():
     result = []
-    userList = models.TBL_CUST_ID_CONV.selectAll()
+    sql = "select ECIF_CUST_NO from TBL_CUST_ID_CONV"
+    userList = db.session.execute(sql)
     for item in userList:
         dataList = []
         customMessage = CustomMessage.selectByEcifId(item.ECIF_CUST_NO)
@@ -27,6 +40,7 @@ def getUserData():
         result.append(dataList)
     dataFrame = pd.DataFrame(result)
     return dataFrame
+
 
 def getFundData():
     result = []

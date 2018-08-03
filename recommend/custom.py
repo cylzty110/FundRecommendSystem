@@ -25,7 +25,6 @@ class DepositMessage:
 # 理财产品持有信息
 class InvestMessage:
     def __init__(self):
-        self.typeCode = "empty"  # 投资理财产品类型码
         self.chmtpdMonthAcm = 0.0  # 投资理财产品月积数
         self.chmtpdSeasonAcm = 0.0  # 投资理财产品季积数
         self.chmtpdYearAcm = 0.0  # 投资理财产品年积数
@@ -36,10 +35,10 @@ class InvestMessage:
     @staticmethod
     def selectByEcifId(id):
         result = InvestMessage()
-        data = models.ADS_CUST_HOLD_INVEST.query.filter(and_(models.ADS_CUST_HOLD_INVEST.
-        ECIF_CST_ID == id, models.ADS_CUST_HOLD_INVEST.IVS_CHMTPD_CGY_CD == '004')).all()
+        data = models.ADS_CUST_HOLD_INVEST\
+            .query.filter(and_(models.ADS_CUST_HOLD_INVEST.ECIF_CST_ID == id,
+                               models.ADS_CUST_HOLD_INVEST.IVS_CHMTPD_CGY_CD == '004')).all()
         for item in data:
-            result.typeCode = item.IVS_CHMTPD_TP_CD
             result.chmtpdMonthAcm += float(item.IVS_CHMTPD_MO_ACM)
             result.chmtpdSeasonAcm += float(item.IVS_CHMTPD_SSN_ACM)
             result.chmtpdYearAcm += float(item.IVS_CHMTPD_YR_ACM)

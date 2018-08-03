@@ -5,7 +5,7 @@ from sqlalchemy import and_, func
 # 客户关注基金
 class CST_FCS_FND:
     def __init__(self):
-        self.purchaseNum = 0  # 购买该基金人数
+        self.purchaseNum = 0  # 关注该基金人数
 
     @staticmethod
     def selectByFundId(id):
@@ -29,29 +29,19 @@ class FND_AUTO_TXN_ITT_DTL:
 # 基金基本信息
 class FND_BSC_INF:
     def __init__(self):
-        self.fundValue = 0.0  # 基金面值
-        self.fundPrice = 0.0  # 基金发行价格
         self.fundFirstFeeRate = 0.0  # 基金首次销售服务费率
         self.fundYearFeeRate = 0.0  # 基金销售服务费年费率
-        self.type = "empty"  # 基金分类编码
-        self.riskGrade = 0  # 基金风险等级代码
-        self.riskValue = 0.0  # 基金风险等级评估值
+        self.riskGrade = 0.0  # 基金风险等级代码
 
     @staticmethod
     def selectByFundId(id):
         result = FND_BSC_INF()
         data = models.FND_BSC_INF.query.filter_by(SCR_PD_ECD=id).all()
         for item in data:
-            result.fundValue = float(item.FND_DNMN)
-            result.fundPrice = float(item.FND_ISSU_PRC)
             result.fundFirstFeeRate = float(item.FNDFTMSALESVCFEE_RATE)
             result.fundYearFeeRate = float(item.FNDSALESVCFEEYR_FEERT)
-            if item.GLX_FND_LVL2_CL_ECD:
-                result.type = item.GLX_FND_LVL2_CL_ECD
             if item.RSK_GRD_CD:
                 result.riskGrade = int(item.RSK_GRD_CD)
-            if item.FND_RSK_GRD_EVAL:
-                result.riskValue = float(item.FND_RSK_GRD_EVAL)
         return result
 
 
