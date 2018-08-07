@@ -4,7 +4,6 @@ from recommend import cluster, feature, models
 from recommend.classification import SVM, LR
 from recommend.tools import getAlphabet
 from recommend import app, similarity
-from recommend.fundinfo import FundInfo
 import pandas as pd
 import numpy as np
 
@@ -76,9 +75,21 @@ for index, item in enumerate(feature.get_fund()):
         fund_feature.append(vector[size])
 fund_feature = np.array(fund_feature)
 
+recommend_list = dict()  # 推荐列表
 # 将基金属性放入分类器预测
-for cls in cls_list:
+for index, cls in enumerate(cls_list):
     label = cls.predict(fund_feature)
+    if label == 1:
+        for cst_id in user_cluster[index]:
+            score = dic.get(cst_id)
+            if score is not None:
+                recommend_list[cst_id] = score
+
+
+# 输出结果(按score降序排列)
+recommend_list = sorted(recommend_list.items(), key=lambda x: x[1], reverse=True)
+for user, score in recommend_list:
+    print(user, score)
 
 
 # @app.route('/HuaTengProject/model/predictByNum', methods=['POST'])
