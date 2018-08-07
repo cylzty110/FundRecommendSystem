@@ -74,6 +74,7 @@ for index, item in enumerate(feature.get_fund()):
     else:
         fund_feature.append(vector[size])
 fund_feature = np.array(fund_feature)
+fund_feature = fund_feature.reshape(1,-1)
 
 recommend_list = dict()  # 推荐列表
 # 将基金属性放入分类器预测
