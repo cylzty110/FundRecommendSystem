@@ -24,37 +24,51 @@ def getAlphabet(num):
 
 
 # 将数据库数据转换为DataFrame类型数据
-def getUserData():
+def getAllUserData():
     result = []
+    index = []
     sql = "select ECIF_CUST_NO from TBL_CUST_ID_CONV"
-    userList = db.session.execute(sql)
-    for item in userList:
-        dataList = []
-        customMessage = CustomMessage.selectByEcifId(item.ECIF_CUST_NO)
-        for dic in customMessage.__dict__:
-            temp = getattr(customMessage, dic)
-            if 'Id' in dic:
-                continue
-            for key in temp.__dict__:
-                dataList.append(getattr(temp, key))
-        result.append(dataList)
+    user_list = db.session.execute(sql)
+    for item in user_list:
+        data_list = getUserData(item.ECIF_CUST_NO)
+        index.append(item.ECIF_CUST_NO)
+        result.append(data_list)
     dataFrame = pd.DataFrame(result)
-    return dataFrame
+    return dataFrame, index
 
 
-def getFundData():
+def getAllFundData():
     result = []
+    index = []
     sql = "select SCR_PD_ECD from FND_BSC_INF"
-    fundList = db.session.execute(sql)
-    for item in fundList:
-        datalist = []
-        fundInfo = FundInfo.selectByFundId(item.SCR_PD_ECD)
-        for dic in fundInfo.__dict__:
-            temp = getattr(fundInfo, dic)
-            if 'Id' in dic:
-                continue
-            for key in temp.__dict__:
-                datalist.append(getattr(temp, key))
-        result.append(datalist)
+    fund_list = db.session.execute(sql)
+    for item in fund_list:
+        data_list = getFundData(item.SCR_PD_ECD)
+        index.append(item.SCR_PD_ECD)
+        result.append(data_list)
     dataFrame = pd.DataFrame(result)
-    return dataFrame
+    return dataFrame, index
+
+
+def getFundData(id):
+    data_list = []
+    fund_info = FundInfo.selectByFundId(id)
+    for dic in fund_info.__dict__:
+        temp = getattr(fund_info, dic)
+        if 'Id' in dic:
+            continue
+        for key in temp.__dict__:
+            data_list.append(getattr(temp, key))
+    return data_list
+
+
+def getUserData(id):
+    data_list = []
+    custom_message = CustomMessage.selectByEcifId(id)
+    for dic in custom_message.__dict__:
+        temp = getattr(custom_message, dic)
+        if 'Id' in dic:
+            continue
+        for key in temp.__dict__:
+            data_list.append(getattr(temp, key))
+    return data_list

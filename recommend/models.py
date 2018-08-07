@@ -39,6 +39,17 @@ class FundFlow(db.Model):
             filter(FundUserRelation.SCR_TXN_ACCNO == FundFlow.SCR_TXN_ACCNO).all()
         return result
 
+    @staticmethod
+    def selectByFundId(id):
+        result = []
+        sql = "select distinct SCR_TNAC.CST_ID from SCR_TNAC,SCR_TXNDN_INF" \
+              " where SCR_TNAC.SCR_TXN_ACCNO=SCR_TXNDN_INF.SCR_TXN_ACCNO AND " \
+              "SCR_TXNDN_INF.SCR_PD_ECD='" + id + "'"
+        data = db.session.execute(sql)
+        for item in data:
+            result.append(item[0])
+        return result
+
 
 # 相似度矩阵
 class Similarity(db.Model):
