@@ -93,14 +93,14 @@ for user, score in recommend_list:
     print(user, score)
 
 
-# @app.route('/HuaTengProject/model/predictByNum', methods=['POST'])
-# def predict():
-#
-#     pass
-#
-#
-# if __name__ == '__main__':
-#     app.run()
+@app.route('/HuaTengProject/model/predictByNum', methods=['POST'])
+def predict():
+
+    pass
+
+
+if __name__ == '__main__':
+    app.run()
 
 
 
