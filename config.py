@@ -1,4 +1,4 @@
 SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 SQLALCHEMY_TRACH_MODIFICATIONS = False
-SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@localhost:3306/WBDB'
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@localhost:3306/wbdb'
 
